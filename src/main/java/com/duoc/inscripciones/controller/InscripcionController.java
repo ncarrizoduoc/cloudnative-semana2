@@ -16,7 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.duoc.inscripciones.dto.InscripcionRequest;
 import com.duoc.inscripciones.dto.InscripcionResponse;
-import com.duoc.inscripciones.model.Inscripcion;
+import com.duoc.inscripciones.mapper.InscripcionResponseMapper;
 import com.duoc.inscripciones.service.InscripcionService;
 
 import jakarta.validation.Valid;
@@ -29,13 +29,20 @@ public class InscripcionController {
     @Autowired
     private InscripcionService inscripcionService;
 
+    @Autowired
+    private InscripcionResponseMapper mapperResponse;
+
     @GetMapping
-    public ResponseEntity<List<Inscripcion>> listarInscripciones(){
-        return ResponseEntity.ok(inscripcionService.listarInscripciones());
+    public ResponseEntity<List<InscripcionResponse>> listarInscripciones(){
+        List<InscripcionResponse> inscripciones = inscripcionService.listarInscripciones()
+            .stream()
+            .map(mapperResponse::toInscripcionResponse)
+            .toList();
+        return ResponseEntity.ok(inscripciones);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Inscripcion> buscarInscripcion(@PathVariable @PositiveOrZero int id){
+    public ResponseEntity<InscripcionResponse> buscarInscripcion(@PathVariable @PositiveOrZero int id){
         return inscripcionService.buscarInscripcion(id)
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());

@@ -29,8 +29,12 @@ public class InscripcionService {
         return inscripcionRepo.findAll();
     }
 
-    public Optional<Inscripcion> buscarInscripcion(int id){
-        return inscripcionRepo.findById(id);
+    public Optional<InscripcionResponse> buscarInscripcion(int id){
+        if (inscripcionRepo.existsById(id)){
+            return Optional.of(mapperResponse.toInscripcionResponse(inscripcionRepo.findById(id).get()));
+        } else {
+            return Optional.empty();
+        }
     }
 
     public InscripcionResponse registrarInscripcion(InscripcionRequest request){
