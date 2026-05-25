@@ -34,7 +34,7 @@ public class InscripcionResponseMapper {
                 throw new ResourceNotFoundException("No existe el curso con ID: " + cursoId);
             }
         }
-        response.setTotal(total);
+        response.setTotal((int)(total * 0.19));
 
         return response;
     }
