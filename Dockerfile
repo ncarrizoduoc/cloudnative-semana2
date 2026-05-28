@@ -6,6 +6,12 @@ WORKDIR /app
 
 COPY pom.xml .
 COPY src /app/src
+
+RUN --mount=type=secret,id=REGION,env=REGION \
+    --mount=type=secret,id=AWS_ACCESS_KEY_ID,env=AWS_ACCESS_KEY_ID \
+    --mount=type=secret,id=AWS_SECRET_ACCESS_KEY,env=AWS_SECRET_ACCESS_KEY \
+    --mount=type=secret,id=AWS_SESSION_TOKEN,env=AWS_SESSION_TOKEN
+
 RUN mvn clean package -DskipTests
 
 FROM eclipse-temurin:17-jdk
