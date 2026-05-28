@@ -26,6 +26,7 @@ jobs:
 
       # Paso 3: Construir la imagen de Docker
       - name: Build Docker Image
+        uses: docker/build-image
         with:
           secrets: |
             "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}"
