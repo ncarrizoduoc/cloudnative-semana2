@@ -26,13 +26,12 @@ jobs:
 
       # Paso 3: Construir la imagen de Docker
       - name: Build Docker Image
-        uses: docker/build-image
+        uses: docker/build-image@v2
         with:
-          secrets: |
-            "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}"
-            "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-            "AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}"
-            "REGION=${{ secrets.REGION }}"
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+          REGION: ${{ secrets.REGION }}
         run: |
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/my-app:latest .
 
