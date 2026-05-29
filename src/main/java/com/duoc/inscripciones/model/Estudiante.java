@@ -1,5 +1,7 @@
 package com.duoc.inscripciones.model;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Estudiante {
+public class Estudiante implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

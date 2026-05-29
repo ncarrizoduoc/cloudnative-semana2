@@ -1,5 +1,7 @@
 package com.duoc.inscripciones.model;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,7 +19,7 @@ import jakarta.validation.constraints.Size;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Curso {
+public class Curso implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
