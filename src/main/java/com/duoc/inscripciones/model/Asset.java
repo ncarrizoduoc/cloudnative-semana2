@@ -8,8 +8,9 @@ import java.net.URL;
 @Value
 @Builder
 public class Asset {
-    String name;
-    String key;
-    URL url;
+    private String key;
+    private String lastModified;
+    private Long size;
+    private URL url;
 
 }

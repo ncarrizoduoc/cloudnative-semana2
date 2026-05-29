@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CopyObjectRequest;
+import com.amazonaws.services.s3.model.ListObjectsV2Request;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
@@ -35,15 +37,17 @@ public class S3RepositoryImpl implements S3Repository{
                 .map(S3ObjectSummary::getKey)
                 .map(key -> mapS3ToObject(bucket, key))
                 .collect(Collectors.toList());
-        
+
         log.info("Found " + items.size() + " objects in the bucket " + bucket);
         return items;
     }
 
     private Asset mapS3ToObject(String bucket, String key){
+        ObjectMetadata metaData = s3Client.getObjectMetadata(bucket, key);
         return Asset.builder()
-            .name(s3Client.getObjectMetadata(bucket, key).getUserMetaDataOf("name"))
             .key(key)
+            .size(metaData.getContentLength())
+            .lastModified(metaData.getLastModified() != null ? metaData.getLastModified().toString() : null)
             .url(s3Client.getUrl(bucket, key))
             .build();
     }
